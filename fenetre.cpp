@@ -140,7 +140,7 @@ FenetrePrincipale::FenetrePrincipale()
 
 void FenetrePrincipale::attaquer()
 {
-    fenetre.majText("attaquer")
+    majText("attaquer");
     infos->setText(textEdit);
     menuActions->setEnabled(false);
     hero->attaquer(enemi);
@@ -216,7 +216,7 @@ void FenetrePrincipale::attaquer()
 void FenetrePrincipale::regenerer()
 
 {
-    fenetre.majText("soigner")
+    majText("soigner");
     infos->setText(textEdit);
     menuActions->setEnabled(false);
     hero->seRegenerer(40, maxVie);
@@ -246,7 +246,7 @@ void FenetrePrincipale::attaquerEpee()
 
 {
 
-    fenetre.majText("attaquer")
+    majText("attaquer");
     infos->setText(textEdit);
     menuActions->setEnabled(false);
     hero->attaquer(enemi);
@@ -291,7 +291,7 @@ void FenetrePrincipale::attaquerEpee()
 void FenetrePrincipale::soinsUltimes()
 {
 
-    fenetre.majText("soins ultimes")
+    majText("soins ultimes");
     infos->setText(textEdit);
     menuActions->setEnabled(false);
     hero->seRegenerer(70, maxVie);
