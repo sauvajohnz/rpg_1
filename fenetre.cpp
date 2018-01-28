@@ -56,6 +56,7 @@ FenetrePrincipale::FenetrePrincipale()
     layoutBox = new QGridLayout; //Menu avec les boutons d'attaques
     QVBoxLayout *layoutText = new QVBoxLayout;  // En bas à droite le texte décriptif des rounds
     incr = 0;
+    maxVie = fenetre2->parametreVieHero();
 
     // On met la couleur du texte à vert et rouge et on met l'image de fond
 
@@ -141,11 +142,8 @@ FenetrePrincipale::FenetrePrincipale()
 void FenetrePrincipale::attaquer()
 {
     majText("attaquer");
-    infos->setText(textEdit);
-    menuActions->setEnabled(false);
     hero->attaquer(enemi);
-    texte2->setText("Enemi niveau [1]           Vie = ["+QString::number(enemi->viePersonnage())+"] \n                                      Attaque : (" + QString::number(degatsEnemi) +")");
-    progressBarEnemi->setValue(enemi->viePersonnage());
+    debutTour();
 
     // On vérifie si ils ne sont pas morts
 
@@ -159,10 +157,7 @@ void FenetrePrincipale::attaquer()
            boutonAttaqueEpee->setEnabled(true);
            boutonAttaquer->setEnabled(false);
            hero->changerArmeHero("Épée de guerrier", attaqueHero + 20, fenetre2->parametreVieHero() + 20);
-           progressBarHero->setMaximum(fenetre2->parametreVieHero()+20);
-           progressBarEnemi->setMaximum(fenetre2->parametreVieEnemi()+20);
-           enemi->changerArmeHero("XXX", 20, 120);
-           incr++;
+           estVivantActualiser();
 
 
         }
@@ -173,43 +168,20 @@ void FenetrePrincipale::attaquer()
             boutonSoins->setEnabled(true);
             boutonRegenerer->setEnabled(false);
             hero->changerArmeHero("Baton de magicien débutant", attaqueHero + 5, fenetre2->parametreVieHero() + 30);
-            progressBarEnemi->setMaximum(fenetre2->parametreVieEnemi()+20);
-            progressBarHero->setMaximum(fenetre2->parametreVieHero()+30);
-            enemi->changerArmeHero("XXX", 20, 120);
-            incr++;
-
+            estVivantActualiser();
         }
         else if(incr > 0)
         {
-            QMessageBox::information(this, "Victoire", "Enemi battu, +10Vie +10Attaque");
-            int incr2 = 10;
-            int resIncr = 0;
-            resIncr = 0;
-            resIncr = incr * incr2;
+            estVivantDebut();
             maxVie = fenetre2->parametreVieHero() + 30 + resIncr;
             hero->changerArmeHero("Baton de magicien débutant", attaqueHero + resIncr , fenetre2->parametreVieHero() + 30 + resIncr);
             enemi->changerArmeHero("XXX", 20, 120);
-            progressBarEnemi->setMaximum(fenetre2->parametreVieEnemi()+25);
-            progressBarHero->setMaximum(fenetre2->parametreVieHero()+ 30 +resIncr);
-            incr++;
+            estVivantActualiser();
         }
     }
 
 
-    Sleep(1500); // On met une pause de 3 secondes
-    textEdit += "L'ennemi vous attaque !\n\n";
-    enemi->attaquer(hero);
-    texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
-    texte2->setText("Enemi niveau [1]           Vie = ["+QString::number(enemi->viePersonnage())+"] \n                                      Attaque : (" + QString::number(degatsEnemi) +")");
-    progressBarHero->setValue(hero->viePersonnage());
-    progressBarEnemi->setValue(enemi->viePersonnage());
-    menuActions->setEnabled(true);
-    infos->setText(textEdit);
-    if (!hero->estVivant())
-    {
-        QMessageBox::critical(this, "GAME OVER", "Vous êtes mort");
-        exit(1);
-    }
+    finTour();
 
 }
 
@@ -217,21 +189,11 @@ void FenetrePrincipale::regenerer()
 
 {
     majText("soigner");
-    infos->setText(textEdit);
-    menuActions->setEnabled(false);
     hero->seRegenerer(40, maxVie);
-    texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
-    progressBarHero->setValue(hero->viePersonnage());
+    debutTour();
 
 
-    Sleep(3000);
-    textEdit += "L'ennemi vous attaque !\n\n";
-    enemi->attaquer(hero);
-    texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
-    progressBarHero->setValue(hero->viePersonnage());
-    menuActions->setEnabled(true);
-    infos->setText(textEdit);
-
+    finTour();
 }
 
 void FenetrePrincipale::setDegatsEnemi(int dgts)
@@ -247,35 +209,47 @@ void FenetrePrincipale::attaquerEpee()
 {
 
     majText("attaquer");
-    infos->setText(textEdit);
-    menuActions->setEnabled(false);
     hero->attaquer(enemi);
-    texte2->setText("Enemi niveau [1]           Vie = ["+QString::number(enemi->viePersonnage())+"] \n                                      Attaque : (" + QString::number(degatsEnemi) +")");
-    progressBarEnemi->setValue(enemi->viePersonnage());
-
+    debutTour();
     // On vérifie si ils ne sont pas morts
 
 
     if(!enemi->estVivant())
     {
-        QMessageBox::information(this, "Victoire", "Enemi battu, +10Vie +10Attaque");
-        int incr2 = 10;
-        int resIncr = 0;
-        resIncr = 0;
-        resIncr = incr * incr2;
-        resIncr += 20;
+        estVivantDebut();
         maxVie = fenetre2->parametreVieHero() + resIncr;
         hero->changerArmeHero("Épée de guerrier", attaqueHero + resIncr , fenetre2->parametreVieHero() + resIncr);
-        enemi->changerArmeHero("XXX", 20, 120);
-        progressBarEnemi->setMaximum(fenetre2->parametreVieEnemi()+20);
-        progressBarHero->setMaximum(fenetre2->parametreVieHero()+ resIncr);
-        incr++;
+        estVivantActualiser();
     }
 
+    finTour();
+}
+void FenetrePrincipale::soinsUltimes()
+{
+
+    majText("soins ultimes");
+    hero->seRegenerer(70, maxVie);
+    debutTour();
+    finTour();
+
+}
+
+void FenetrePrincipale::majText(QString typeAction)
+{
+    textEdit.clear();
+    textEdit += "Infos de la partie\n\n";
+    textEdit += "Vous venez de faire l'action "+typeAction+"!\n";
+    textEdit += "C'est au tour de l'ennemi...\n";
+}
+
+void FenetrePrincipale::finTour()
+{
     Sleep(1500); // On met une pause de 3 secondes
     textEdit += "L'ennemi vous attaque !\n\n";
     enemi->attaquer(hero);
+    texte1->clear();
     texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
+    texte2->clear();
     texte2->setText("Enemi niveau [1]           Vie = ["+QString::number(enemi->viePersonnage())+"] \n                                      Attaque : (" + QString::number(degatsEnemi) +")");
     progressBarHero->setValue(hero->viePersonnage());
     progressBarEnemi->setValue(enemi->viePersonnage());
@@ -288,32 +262,29 @@ void FenetrePrincipale::attaquerEpee()
     }
 
 }
-void FenetrePrincipale::soinsUltimes()
-{
 
-    majText("soins ultimes");
+void FenetrePrincipale::debutTour()
+{
     infos->setText(textEdit);
     menuActions->setEnabled(false);
-    hero->seRegenerer(70, maxVie);
+    texte2->setText("Enemi niveau [1]           Vie = ["+QString::number(enemi->viePersonnage())+"] \n                                      Attaque : (" + QString::number(degatsEnemi) +")");
     texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
     progressBarHero->setValue(hero->viePersonnage());
-
-
-    Sleep(3000);
-    textEdit += "L'ennemi vous attaque !\n\n";
-    enemi->attaquer(hero);
-    texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
-    progressBarHero->setValue(hero->viePersonnage());
-    menuActions->setEnabled(true);
-    infos->setText(textEdit);
-
+    progressBarEnemi->setValue(enemi->viePersonnage());
 }
 
-void FenetrePrincipale::majText(QString typeAction)
+void FenetrePrincipale::estVivantDebut()
 {
-    textEdit.clear();
-    textEdit += "Infos de la partie\n\n";
-    textEdit += "Vous venez de faire l'action "+typeAction+"!\n";
-    textEdit += "C'est au tour de l'ennemi...\n";
+    QMessageBox::information(this, "Victoire", "Enemi battu, +10Vie +10Attaque");
+    resIncr = 0;
+    resIncr = incr * incr2;
+    resIncr += 20;
 }
 
+void FenetrePrincipale::estVivantActualiser()
+{
+    enemi->changerArmeHero("XXX", 20, 120);
+    progressBarEnemi->setMaximum(fenetre2->parametreVieEnemi()+20);
+    progressBarHero->setMaximum(fenetre2->parametreVieHero()+ resIncr);
+    incr++;
+}

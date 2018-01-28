@@ -22,6 +22,10 @@ public :
     ~FenetrePrincipale();
     void setDegatsEnemi(int dgts);
     void majText(QString typeAction);
+    void finTour();
+    void debutTour();
+    void estVivantActualiser();
+    void estVivantDebut();
 
 private slots:
     void attaquer();
@@ -57,7 +61,8 @@ private:
     QString nomHero;
     QString nomArmeHero;
 
-
+    int incr2 = 10;
+    int resIncr = 0;
 
 
 };
