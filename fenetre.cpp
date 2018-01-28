@@ -175,7 +175,6 @@ void FenetrePrincipale::attaquer()
             estVivantDebut();
             maxVie = fenetre2->parametreVieHero() + 30 + resIncr;
             hero->changerArmeHero("Baton de magicien débutant", attaqueHero + resIncr , fenetre2->parametreVieHero() + 30 + resIncr);
-            enemi->changerArmeHero("XXX", 20, 120);
             estVivantActualiser();
         }
     }
@@ -267,7 +266,9 @@ void FenetrePrincipale::debutTour()
 {
     infos->setText(textEdit);
     menuActions->setEnabled(false);
+    texte2->clear();
     texte2->setText("Enemi niveau [1]           Vie = ["+QString::number(enemi->viePersonnage())+"] \n                                      Attaque : (" + QString::number(degatsEnemi) +")");
+    texte1->clear();
     texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
     progressBarHero->setValue(hero->viePersonnage());
     progressBarEnemi->setValue(enemi->viePersonnage());

@@ -48,7 +48,6 @@ private:
     QString nomHero;
     QString nomArmeHero;
 
-    QRadioButton *test;
     QRadioButton *magicien;
     QRadioButton *guerrier;
 

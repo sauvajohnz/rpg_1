@@ -37,11 +37,9 @@ FenetreParametres::FenetreParametres()
 
     guerrier = new QRadioButton("Guerrier");
     magicien = new QRadioButton("Magicien");
-    test = new QRadioButton("Test classe");
     guerrier->setChecked(true);
     layoutBox2->addWidget(guerrier);
     layoutBox2->addWidget(magicien);
-    layoutBox2->addWidget(test);
 
     box1->setLayout(layoutBox1);
     box2->setLayout(layoutBox2);
