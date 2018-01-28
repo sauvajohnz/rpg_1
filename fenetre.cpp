@@ -140,10 +140,7 @@ FenetrePrincipale::FenetrePrincipale()
 
 void FenetrePrincipale::attaquer()
 {
-    textEdit.clear();
-    textEdit += "Infos de la partie\n\n";
-    textEdit += "Vous venez d'attaquer !\n";
-    textEdit += "C'est au tour de l'enemie...\n";
+    fenetre.majText("attaquer")
     infos->setText(textEdit);
     menuActions->setEnabled(false);
     hero->attaquer(enemi);
@@ -200,7 +197,7 @@ void FenetrePrincipale::attaquer()
 
 
     Sleep(1500); // On met une pause de 3 secondes
-    textEdit += "L'enemie vous attaque !\n\n";
+    textEdit += "L'ennemi vous attaque !\n\n";
     enemi->attaquer(hero);
     texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
     texte2->setText("Enemi niveau [1]           Vie = ["+QString::number(enemi->viePersonnage())+"] \n                                      Attaque : (" + QString::number(degatsEnemi) +")");
@@ -219,10 +216,7 @@ void FenetrePrincipale::attaquer()
 void FenetrePrincipale::regenerer()
 
 {
-    textEdit.clear();
-    textEdit += "Infos de la partie\n\n";
-    textEdit += "Vous vous soignez !\n";
-    textEdit += "C'est au tour de l'enemie...\n";
+    fenetre.majText("soigner")
     infos->setText(textEdit);
     menuActions->setEnabled(false);
     hero->seRegenerer(40, maxVie);
@@ -231,7 +225,7 @@ void FenetrePrincipale::regenerer()
 
 
     Sleep(3000);
-    textEdit += "L'enemie vous attaque !\n\n";
+    textEdit += "L'ennemi vous attaque !\n\n";
     enemi->attaquer(hero);
     texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
     progressBarHero->setValue(hero->viePersonnage());
@@ -252,10 +246,7 @@ void FenetrePrincipale::attaquerEpee()
 
 {
 
-    textEdit.clear();
-    textEdit += "Infos de la partie\n\n";
-    textEdit += "Vous venez d'attaquer avec un coup d'épée!\n";
-    textEdit += "C'est au tour de l'enemie...\n";
+    fenetre.majText("attaquer")
     infos->setText(textEdit);
     menuActions->setEnabled(false);
     hero->attaquer(enemi);
@@ -282,7 +273,7 @@ void FenetrePrincipale::attaquerEpee()
     }
 
     Sleep(1500); // On met une pause de 3 secondes
-    textEdit += "L'enemie vous attaque !\n\n";
+    textEdit += "L'ennemi vous attaque !\n\n";
     enemi->attaquer(hero);
     texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
     texte2->setText("Enemi niveau [1]           Vie = ["+QString::number(enemi->viePersonnage())+"] \n                                      Attaque : (" + QString::number(degatsEnemi) +")");
@@ -300,10 +291,7 @@ void FenetrePrincipale::attaquerEpee()
 void FenetrePrincipale::soinsUltimes()
 {
 
-    textEdit.clear();
-    textEdit += "Infos de la partie\n\n";
-    textEdit += "Vous vous soignez !\n";
-    textEdit += "C'est au tour de l'enemie...\n";
+    fenetre.majText("soins ultimes")
     infos->setText(textEdit);
     menuActions->setEnabled(false);
     hero->seRegenerer(70, maxVie);
@@ -312,12 +300,20 @@ void FenetrePrincipale::soinsUltimes()
 
 
     Sleep(3000);
-    textEdit += "L'enemie vous attaque !\n\n";
+    textEdit += "L'ennemi vous attaque !\n\n";
     enemi->attaquer(hero);
     texte1->setText("\nNom du personnage : "+ nomHero +" \nArme : " + hero->nomArmePerso() + "(dégats : " + QString::number(+hero->degatsArmePerso()) +") \n\n Votre vie : " + QString::number(hero->viePersonnage()));
     progressBarHero->setValue(hero->viePersonnage());
     menuActions->setEnabled(true);
     infos->setText(textEdit);
 
+}
+
+void FenetrePrincipale::majText(QString typeAction)
+{
+    textEdit.clear();
+    textEdit += "Infos de la partie\n\n";
+    textEdit += "Vous venez de faire l'action "+typeAction+"!\n";
+    textEdit += "C'est au tour de l'ennemi...\n";
 }
 
